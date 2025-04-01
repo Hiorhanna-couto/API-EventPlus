@@ -4,16 +4,32 @@
         <name>webapi.event+</name>
     </assembly>
     <members>
-        <member name="T:webapi.event_.Migrations.db_v1">
+        <member name="M:webapi.event_.Controllers.ComentariosEventosController.Delete(System.Guid)">
+            <summary>
+            Endpoint para deletar Feedbacks
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:webapi.event_.Controllers.ComentariosEventosController.Get(System.Guid)" -->
+        <member name="M:webapi.event_.Controllers.ComentariosEventosController.GetById(System.Guid,System.Guid)">
+            <summary>
+            Endpoint para buscar Feedbacks por Id dos usuarios
+            </summary>
+            <param name="UsuarioId"></param>
+            <param name="EventoId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:webapi.event_.Migrations.EventPlus">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.db_v1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:webapi.event_.Migrations.EventPlus.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.db_v1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:webapi.event_.Migrations.EventPlus.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.db_v1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:webapi.event_.Migrations.EventPlus.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

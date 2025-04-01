@@ -8,8 +8,7 @@ namespace webapi.event_.Contexts
         public Context()
         {
         }
-        public Context(DbContextOptions<Context> options)
-            : base(options)
+        public Context(DbContextOptions<Context> options): base(options)
         {
         }
 
@@ -32,7 +31,8 @@ namespace webapi.event_.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=ROQUE; Database=event; Integrated Security=True; TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer("Server = DESKTOP-ALUUT85\\SQLEXPRESS; Database = EventPlus; User Id = sa; Pwd = Senai@134; TrustServerCertificate=true;");
+
             }
         }
     }

@@ -15,6 +15,122 @@
     "version": "v1"
   },
   "paths": {
+    "/api/ComentariosEventos": {
+      "post": {
+        "tags": [
+          "ComentariosEventos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComentariosEventos"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComentariosEventos"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComentariosEventos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ComentariosEventos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ComentariosEventos/{id}": {
+      "delete": {
+        "tags": [
+          "ComentariosEventos"
+        ],
+        "summary": "Endpoint para deletar Feedbacks",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ComentariosEventos/BuscarPorIdUsuario/{id}": {
+      "get": {
+        "tags": [
+          "ComentariosEventos"
+        ],
+        "summary": "Endpoint para buscar Feedbacks por Id dos usuarios",
+        "parameters": [
+          {
+            "name": "UsuarioId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "EventosId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Eventos": {
       "get": {
         "tags": [
@@ -618,6 +734,43 @@
   },
   "components": {
     "schemas": {
+      "ComentariosEventos": {
+        "required": [
+          "descricao",
+          "exibe",
+          "idEvento",
+          "idUsuario"
+        ],
+        "type": "object",
+        "properties": {
+          "idComentarioEvento": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "descricao": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "exibe": {
+            "type": "boolean"
+          },
+          "idUsuario": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/Usuarios"
+          },
+          "idEvento": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "evento": {
+            "$ref": "#/components/schemas/Eventos"
+          }
+        },
+        "additionalProperties": false
+      },
       "Eventos": {
         "required": [
           "dataEvento",
