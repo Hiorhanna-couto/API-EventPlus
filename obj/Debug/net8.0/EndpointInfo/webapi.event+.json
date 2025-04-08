@@ -5,8 +5,8 @@
     "description": "Aplicação para gerenciamento de eventos",
     "termsOfService": "https://example.com/terms",
     "contact": {
-      "name": "Carlos Roque",
-      "url": "https://www.linkedin.com/in/roquecarlos/"
+      "name": "Hiorhanna couto santana",
+      "url": "https://github.com/Hiorhanna-couto"
     },
     "license": {
       "name": "Example License",
@@ -91,36 +91,48 @@
         }
       }
     },
-    "/api/ComentariosEventos/BuscarPorIdUsuario/{id}": {
+    "/api/ComentariosEventos/ListarSomenteExibe": {
       "get": {
         "tags": [
           "ComentariosEventos"
         ],
-        "summary": "Endpoint para buscar Feedbacks por Id dos usuarios",
         "parameters": [
           {
-            "name": "UsuarioId",
-            "in": "query",
-            "description": "",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "EventosId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
             "name": "id",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ComentariosEventos/BuscarPorIdUsuario": {
+      "get": {
+        "tags": [
+          "ComentariosEventos"
+        ],
+        "parameters": [
+          {
+            "name": "idUsuario",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "idEvento",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],

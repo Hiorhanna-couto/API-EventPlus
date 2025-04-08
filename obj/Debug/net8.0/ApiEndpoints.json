@@ -49,26 +49,37 @@
   },
   {
     "ContainingType": "webapi.event_.Controllers.ComentariosEventosController",
-    "Method": "GetById",
-    "RelativePath": "api/ComentariosEventos/BuscarPorIdUsuario/{id}",
+    "Method": "GetByIdUser",
+    "RelativePath": "api/ComentariosEventos/BuscarPorIdUsuario",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UsuarioId",
+        "Name": "idUsuario",
         "Type": "System.Guid",
         "IsRequired": false
       },
       {
-        "Name": "EventosId",
+        "Name": "idEvento",
         "Type": "System.Guid",
         "IsRequired": false
-      },
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webapi.event_.Controllers.ComentariosEventosController",
+    "Method": "GetExibe",
+    "RelativePath": "api/ComentariosEventos/ListarSomenteExibe",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
         "Name": "id",
-        "Type": "",
-        "IsRequired": true
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

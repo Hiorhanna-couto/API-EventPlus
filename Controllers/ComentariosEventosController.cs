@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Azure.AI.ContentSafety;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using webapi.event_.Domains;
@@ -13,23 +15,42 @@ namespace webapi.event_.Controllers
     public class ComentariosEventosController : ControllerBase
     {
         private readonly IComentariosEventosRepository _comentariosEventoRepository;
+        private readonly ContentSafetyClient _contentSafetyClient;
 
-
-        public ComentariosEventosController(IComentariosEventosRepository comentarioEventorepository)
+        public ComentariosEventosController(ContentSafetyClient contentSafetyClient, IComentariosEventosRepository comentarioEventorepository)
         {
             _comentariosEventoRepository = comentarioEventorepository;
+            _contentSafetyClient = contentSafetyClient;
         }
 
 
-        [Authorize]
+        
         [HttpPost]
-
-        public IActionResult Post(ComentariosEventos novoComentarioEvento)
+        public async Task<IActionResult> Post(ComentariosEventos novoComentarioEvento)
         {
             try
             {
+                if (string.IsNullOrEmpty(novoComentarioEvento.Descricao))
+                {
+                    return BadRequest("o texto a ser moderado nao pode estar vazio !");
+                }
+
+                //criar objetos de analise do content safety
+                var request = new AnalyzeTextOptions(novoComentarioEvento.Descricao);
+
+                //chamar Api do content safety
+                Response<AnalyzeTextResult> response = await _contentSafetyClient.AnalyzeTextAsync(request);
+
+                //verificar se o texto analisado tem alguma severidade 
+                bool temConteudoImproprio = response.Value.CategoriesAnalysis.Any(c => c.Severity > 0);
+
+                //se o coteudo for inproprio , nao exibe , caso contrario, exibe
+                novoComentarioEvento.Exibe = !temConteudoImproprio;//false
+
+                //cadastra de fato o comentario
                 _comentariosEventoRepository.Cadastrar(novoComentarioEvento);
-                return Created();
+
+                return Ok();
             }
             catch (Exception e)
             {
@@ -50,61 +71,59 @@ namespace webapi.event_.Controllers
             try
             {
                 _comentariosEventoRepository.Deletar(id);
-                return NoContent();
 
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ListarSomenteExibe")]
+        public IActionResult GetExibe(Guid id)
+        {
+            try
+            {
+                return Ok(_comentariosEventoRepository.ListarSomenteExibe(id));
             }
             catch (Exception)
             {
 
                 throw;
             }
-
         }
-        // <summary>
-        /// Endpoint para listar Feedbacks
-        /// </summary>
-        /// <returns></returns>
+
         [HttpGet]
         public IActionResult Get(Guid id)
         {
             try
             {
                 return Ok(_comentariosEventoRepository.Listar(id));
-
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return BadRequest(e.Message);
+                throw;
             }
         }
 
-        /// <summary>
-        /// Endpoint para buscar Feedbacks por Id dos usuarios
-        /// </summary>
-        /// <param name="UsuarioId"></param>
-        /// <param name="EventoId"></param>
-        /// <returns></returns>
-        [HttpGet("BuscarPorIdUsuario/{id}")]
-        public IActionResult GetById(Guid UsuarioId, Guid EventosId)
+        [HttpGet("BuscarPorIdUsuario")]
+        public IActionResult GetByIdUser(Guid idUsuario, Guid idEvento)
         {
             try
             {
-                ComentariosEventos comentarioBuscado = _comentariosEventoRepository.BuscarPorIdUsuario(UsuarioId, EventosId);
-                return Ok(comentarioBuscado);
-
+                return Ok(_comentariosEventoRepository.BuscarPorIdUsuario(idUsuario, idEvento));
             }
-            catch (Exception error)
+            catch (Exception)
             {
-                return BadRequest(error.Message);
+
+                throw;
             }
         }
-
     }
+
 }
-
-
-
 
 
 

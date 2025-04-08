@@ -1,4 +1,6 @@
-using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Azure;
+using Azure.AI.ContentSafety;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -6,8 +8,21 @@ using System.Reflection;
 using webapi.event_.Contexts;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
+//configuracao do azere content 
+var endpoint = builder.Configuration["AzureContentSafety:Endopoint"];
+var apikey = builder.Configuration["AzureContentSafety:ApiKey"];
+
+if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(apikey))
+{
+    throw new InvalidOperationException("Azure Content Safety:Endpoint ou API key nao foram configurados.");
+}
+
+var client = new ContentSafetyClient(new Uri(endpoint), new AzureKeyCredential(apikey));
+builder.Services.AddSingleton(client);
+
 
 builder.Services // Acessa a coleção de serviços da aplicação (Dependency Injection)
     .AddControllers() // Adiciona suporte a controladores na API (MVC ou Web API)
@@ -30,6 +45,7 @@ builder.Services.AddScoped<ITiposEventosRepository, TiposEventosRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuariosRepository>();
 builder.Services.AddScoped<IEventosRepository, EventosRepository>();
 builder.Services.AddScoped<IPresencasEventosRepository, PresencasEventosRepository>();
+builder.Services.AddScoped<IComentariosEventosRepository, ComentariosEventosRepository>();
 
 //Adiciona o serviço de Controllers
 builder.Services.AddControllers();
@@ -80,8 +96,8 @@ builder.Services.AddSwaggerGen(options =>
         TermsOfService = new Uri("https://example.com/terms"),
         Contact = new OpenApiContact
         {
-            Name = "Carlos Roque",
-            Url = new Uri("https://www.linkedin.com/in/roquecarlos/")
+            Name = "Hiorhanna couto santana",
+            Url = new Uri("https://github.com/Hiorhanna-couto")
         },
         License = new OpenApiLicense
         {
@@ -151,10 +167,10 @@ if (app.Environment.IsDevelopment())
 }
 //aplicar o servico cognitivo
 //habilita o servico de moderador de conteudo do Microsoft Azure
-builder.Services.AddSingleton(provider => new ContentModeratorClient(new ApiKeyServiceClientCredentials("api key gerado no azure"))
-{
-    Endpoint = "adicionar o endepoint gerado azure"
-});
+//builder.Services.AddSingleton(provider => new ContentModeratorClient(new ApiKeyServiceClientCredentials("api key gerado no azure"))
+//{
+    //Endpoint = "adicionar o endepoint gerado azure"
+//});
 
 
 

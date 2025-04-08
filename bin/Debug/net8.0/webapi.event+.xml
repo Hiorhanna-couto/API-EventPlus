@@ -11,15 +11,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:webapi.event_.Controllers.ComentariosEventosController.Get(System.Guid)" -->
-        <member name="M:webapi.event_.Controllers.ComentariosEventosController.GetById(System.Guid,System.Guid)">
-            <summary>
-            Endpoint para buscar Feedbacks por Id dos usuarios
-            </summary>
-            <param name="UsuarioId"></param>
-            <param name="EventoId"></param>
-            <returns></returns>
-        </member>
         <member name="T:webapi.event_.Migrations.EventPlus">
             <inheritdoc />
         </member>
