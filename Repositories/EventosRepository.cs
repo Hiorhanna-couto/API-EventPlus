@@ -136,12 +136,53 @@ namespace webapi.event_.Repositories
             }
         }
 
+        //public List<Eventos> ListarPorId(Guid id)
+        //{
+        //    try
+        //    {
+        //        return _context.Eventos
+        //            .Include(e => e.PresencasEventos)
+        //            .Select(e => new Eventos
+        //            {
+        //                IdEvento = e.IdEvento,
+        //                NomeEvento = e.NomeEvento,
+        //                Descricao = e.Descricao,
+        //                DataEvento = e.DataEvento,
+        //                IdTipoEvento = e.IdTipoEvento,
+        //                TiposEvento = new TiposEventos
+        //                {
+        //                    IdTipoEvento = e.IdTipoEvento,
+        //                    TituloTipoEvento = e.TiposEvento!.TituloTipoEvento
+        //                },
+        //                IdInstituicao = e.IdInstituicao,
+        //                Instituicao = new Instituicoes
+        //                {
+        //                    IdInstituicao = e.IdInstituicao,
+        //                    NomeFantasia = e.Instituicao!.NomeFantasia
+        //                },
+        //                PresencasEventos = new PresencasEventos
+        //                {
+        //                    IdUsuario = e.PresencasEventos!.IdUsuario,
+        //                    Situacao = e.PresencasEventos!.Situacao
+        //                }
+        //            })
+        //            .Where(e => e.PresencasEventos!.Situacao == true && e.PresencasEventos.IdUsuario == id)
+        //            .ToList();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+
         public List<Eventos> ListarPorId(Guid id)
         {
             try
             {
                 return _context.Eventos
                     .Include(e => e.PresencasEventos)
+                    .Where(e => e.PresencasEventos!.Any(p => p.IdUsuario == id && p.Situacao == true))
                     .Select(e => new Eventos
                     {
                         IdEvento = e.IdEvento,
@@ -160,13 +201,11 @@ namespace webapi.event_.Repositories
                             IdInstituicao = e.IdInstituicao,
                             NomeFantasia = e.Instituicao!.NomeFantasia
                         },
-                        PresencasEventos = new PresencasEventos
-                        {
-                            IdUsuario = e.PresencasEventos!.IdUsuario,
-                            Situacao = e.PresencasEventos!.Situacao
-                        }
+                        // Aqui você monta uma lista com as presenças válidas (opcional)
+                        PresencasEventos = e.PresencasEventos
+                            .Where(p => p.IdUsuario == id && p.Situacao == true)
+                            .ToList()
                     })
-                    .Where(e => e.PresencasEventos!.Situacao == true && e.PresencasEventos.IdUsuario == id)
                     .ToList();
             }
             catch (Exception)
@@ -174,7 +213,6 @@ namespace webapi.event_.Repositories
                 throw;
             }
         }
-
 
         public List<Eventos> ProximosEventos()
         {

@@ -13,7 +13,7 @@ namespace webapi.event_.Repositories
         {
             _context = context;
         }
-        public ComentariosEventos BuscarPorIdUsuario(Guid idUsuario, Guid idEvento)
+        public List<ComentariosEventos> BuscarPorIdUsuario(Guid idUsuario, Guid idEvento)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace webapi.event_.Repositories
                             NomeEvento = c.Evento!.NomeEvento,
                         }
 
-                    }).FirstOrDefault(c => c.IdUsuario == idUsuario && c.IdEvento == idEvento)!;
+                    }).Where(c => c.IdUsuario == idUsuario && c.IdEvento == idEvento).ToList();
             }
             catch (Exception)
             {

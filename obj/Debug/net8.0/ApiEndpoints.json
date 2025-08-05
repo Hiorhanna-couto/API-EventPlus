@@ -8,7 +8,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "novoComentarioEvento",
+        "Name": "comentariosEvento",
         "Type": "webapi.event_.Domains.ComentariosEventos",
         "IsRequired": true
       }

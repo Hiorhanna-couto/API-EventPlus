@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\52267963825\\Desktop\\EventPlus\\webapi.event+.csproj": {}
+    "C:\\Users\\admin\\Desktop\\Projeto Event - testeokok\\api_event+_alunos\\webapi.event+\\webapi.event+.csproj": {}
   },
   "projects": {
-    "C:\\Users\\52267963825\\Desktop\\EventPlus\\webapi.event+.csproj": {
+    "C:\\Users\\admin\\Desktop\\Projeto Event - testeokok\\api_event+_alunos\\webapi.event+\\webapi.event+.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\52267963825\\Desktop\\EventPlus\\webapi.event+.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\Projeto Event - testeokok\\api_event+_alunos\\webapi.event+\\webapi.event+.csproj",
         "projectName": "webapi.event+",
-        "projectPath": "C:\\Users\\52267963825\\Desktop\\EventPlus\\webapi.event+.csproj",
-        "packagesPath": "C:\\Users\\52267963825\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\52267963825\\Desktop\\EventPlus\\obj\\",
+        "projectPath": "C:\\Users\\admin\\Desktop\\Projeto Event - testeokok\\api_event+_alunos\\webapi.event+\\webapi.event+.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\Projeto Event - testeokok\\api_event+_alunos\\webapi.event+\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\52267963825\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -61,10 +61,6 @@
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.14, )"
-            },
-            "Microsoft.Azure.CognitiveServices.ContentModerator": {
-              "target": "Package",
-              "version": "[2.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -108,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

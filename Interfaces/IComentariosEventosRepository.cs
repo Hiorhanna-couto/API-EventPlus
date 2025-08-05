@@ -7,8 +7,7 @@ namespace webapi.event_.Interfaces
         void Cadastrar(ComentariosEventos comentarioEvento);
         void Deletar(Guid id);
         List<ComentariosEventos> Listar(Guid id);
-        ComentariosEventos BuscarPorIdUsuario(Guid idUsuario, Guid idEvento);
-
+        List<ComentariosEventos> BuscarPorIdUsuario(Guid idUsuario, Guid idEvento);
         List<ComentariosEventos> ListarSomenteExibe(Guid id);
     }
 }

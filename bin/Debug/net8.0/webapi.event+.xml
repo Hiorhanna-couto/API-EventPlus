@@ -6,21 +6,21 @@
     <members>
         <member name="M:webapi.event_.Controllers.ComentariosEventosController.Delete(System.Guid)">
             <summary>
-            Endpoint para deletar Feedbacks
+            Enpoint da API que faz a chamada para o método de deletar um comentário
             </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">Id do comentário a ser deletado</param>
+            <returns>Status code</returns>
         </member>
-        <member name="T:webapi.event_.Migrations.EventPlus">
+        <member name="T:webapi.event_.Migrations.bd_v2">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.EventPlus.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:webapi.event_.Migrations.bd_v2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.EventPlus.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:webapi.event_.Migrations.bd_v2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:webapi.event_.Migrations.EventPlus.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:webapi.event_.Migrations.bd_v2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

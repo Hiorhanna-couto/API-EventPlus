@@ -5,8 +5,8 @@
     "description": "Aplicação para gerenciamento de eventos",
     "termsOfService": "https://example.com/terms",
     "contact": {
-      "name": "Hiorhanna couto santana",
-      "url": "https://github.com/Hiorhanna-couto"
+      "name": "Carlos Roque",
+      "url": "https://www.linkedin.com/in/roquecarlos/"
     },
     "license": {
       "name": "Example License",
@@ -71,12 +71,12 @@
         "tags": [
           "ComentariosEventos"
         ],
-        "summary": "Endpoint para deletar Feedbacks",
+        "summary": "Enpoint da API que faz a chamada para o método de deletar um comentário",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "",
+            "description": "Id do comentário a ser deletado",
             "required": true,
             "schema": {
               "type": "string",
@@ -822,7 +822,11 @@
             "$ref": "#/components/schemas/Instituicoes"
           },
           "presencasEventos": {
-            "$ref": "#/components/schemas/PresencasEventos"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PresencasEventos"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

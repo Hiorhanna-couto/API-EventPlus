@@ -1,8 +1,8 @@
 ﻿using Azure;
 using Azure.AI.ContentSafety;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using webapi.event_.Contexts;
 using webapi.event_.Domains;
 using webapi.event_.Interfaces;
 using webapi.event_.Repositories;
@@ -14,41 +14,57 @@ namespace webapi.event_.Controllers
     [Produces("application/json")]
     public class ComentariosEventosController : ControllerBase
     {
-        private readonly IComentariosEventosRepository _comentariosEventoRepository;
         private readonly ContentSafetyClient _contentSafetyClient;
 
-        public ComentariosEventosController(ContentSafetyClient contentSafetyClient, IComentariosEventosRepository comentarioEventorepository)
+        private readonly IComentariosEventosRepository _comentariosEventosRepository;
+
+        private readonly Context _contexto;
+
+        public ComentariosEventosController(ContentSafetyClient contentSafetyClient, IComentariosEventosRepository comentariosEventosRepository, Context contexto)
         {
-            _comentariosEventoRepository = comentarioEventorepository;
             _contentSafetyClient = contentSafetyClient;
+            _comentariosEventosRepository = comentariosEventosRepository;
+            _contexto = contexto;
         }
 
-
-        
         [HttpPost]
-        public async Task<IActionResult> Post(ComentariosEventos novoComentarioEvento)
+        public async Task<IActionResult> Post(ComentariosEventos comentariosEvento)
         {
             try
             {
-                if (string.IsNullOrEmpty(novoComentarioEvento.Descricao))
+                Eventos? eventoBuscado = _contexto.Eventos.FirstOrDefault(e => e.IdEvento == 
+                comentariosEvento.IdEvento);
+
+                if (eventoBuscado == null)
                 {
-                    return BadRequest("o texto a ser moderado nao pode estar vazio !");
+                    return NotFound("Evento não encontrado!");
                 }
 
-                //criar objetos de analise do content safety
-                var request = new AnalyzeTextOptions(novoComentarioEvento.Descricao);
+                if(eventoBuscado.DataEvento >= DateTime.UtcNow)
+                {
+                    return BadRequest("Não é possível comentar um evento que ainda não aconteceu!");
+                }
 
-                //chamar Api do content safety
+
+                if (string.IsNullOrEmpty(comentariosEvento.Descricao))
+                {
+                    return BadRequest("O texto a ser moderado não pode estar vazio.");
+                }
+
+                // Criar objeto de análise
+                var request = new AnalyzeTextOptions(comentariosEvento.Descricao);
+
+                // Chamar a API do Azure Content Safety
                 Response<AnalyzeTextResult> response = await _contentSafetyClient.AnalyzeTextAsync(request);
 
-                //verificar se o texto analisado tem alguma severidade 
-                bool temConteudoImproprio = response.Value.CategoriesAnalysis.Any(c => c.Severity > 0);
+                // Verificar se o texto tem alguma severidade maior que 0
+                bool temConteudoImpropio = response.Value.CategoriesAnalysis.Any(c => c.Severity > 0);
 
-                //se o coteudo for inproprio , nao exibe , caso contrario, exibe
-                novoComentarioEvento.Exibe = !temConteudoImproprio;//false
+                // Se houver qualquer severidade detectada, o comentário será ocultado, caso contrário será exibido
+                comentariosEvento.Exibe = !temConteudoImpropio;
 
-                //cadastra de fato o comentario
-                _comentariosEventoRepository.Cadastrar(novoComentarioEvento);
+                // Cadastrar o comentário no banco de dados
+                _comentariosEventosRepository.Cadastrar(comentariosEvento);
 
                 return Ok();
             }
@@ -59,18 +75,16 @@ namespace webapi.event_.Controllers
         }
 
         /// <summary>
-        /// Endpoint para deletar Feedbacks
+        /// Enpoint da API que faz a chamada para o método de deletar um comentário
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-
+        /// <param name="id">Id do comentário a ser deletado</param>
+        /// <returns>Status code</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
             try
             {
-                _comentariosEventoRepository.Deletar(id);
+                _comentariosEventosRepository.Deletar(id);
 
                 return NoContent();
             }
@@ -85,7 +99,7 @@ namespace webapi.event_.Controllers
         {
             try
             {
-                return Ok(_comentariosEventoRepository.ListarSomenteExibe(id));
+                return Ok(_comentariosEventosRepository.ListarSomenteExibe(id));
             }
             catch (Exception)
             {
@@ -99,7 +113,7 @@ namespace webapi.event_.Controllers
         {
             try
             {
-                return Ok(_comentariosEventoRepository.Listar(id));
+                return Ok(_comentariosEventosRepository.Listar(id));
             }
             catch (Exception)
             {
@@ -113,7 +127,7 @@ namespace webapi.event_.Controllers
         {
             try
             {
-                return Ok(_comentariosEventoRepository.BuscarPorIdUsuario(idUsuario, idEvento));
+                return Ok(_comentariosEventosRepository.BuscarPorIdUsuario(idUsuario, idEvento));
             }
             catch (Exception)
             {
@@ -122,10 +136,4 @@ namespace webapi.event_.Controllers
             }
         }
     }
-
 }
-
-
-
-
-   
